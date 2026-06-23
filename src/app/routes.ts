@@ -7,6 +7,8 @@ import { AptitudeTest } from "./components/pages/AptitudeTest";
 import { PersonalityTest } from "./components/pages/PersonalityTest";
 import { CareerRecommendations } from "./components/pages/CareerRecommendations";
 import { RecruiterDashboard } from "./components/pages/RecruiterDashboard";
+import { PostJob } from "./components/pages/PostJob";
+import { Applicants } from "./components/pages/Applicants";
 import { ApiDocs } from "./components/pages/ApiDocs";
 import { Login } from "./components/pages/Login";
 import { Register } from "./components/pages/Register";
@@ -25,6 +27,8 @@ export const router = createBrowserRouter([
       { path: "student/personality", Component: PersonalityTest },
       { path: "student/recommendations", Component: CareerRecommendations },
       { path: "recruiter", Component: RecruiterDashboard },
+      { path: "recruiter/post-job", Component: PostJob },
+      { path: "recruiter/jobs/:jobId/applicants", Component: Applicants },
       { path: "api", Component: ApiDocs },
       { path: "login", Component: Login },
       { path: "register", Component: Register },
