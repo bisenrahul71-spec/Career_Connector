@@ -41,12 +41,14 @@ export function PersonalityTest() {
   const [current, setCurrent] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [result, setResult] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const currentQ = questions[current]
   const totalQ = questions.length
 
   const handleSelect = (dimension: string) => {
     setAnswers({ ...answers, [currentQ.id]: dimension })
+    setError(null)
   }
 
   const handleNext = () => {
@@ -71,6 +73,12 @@ export function PersonalityTest() {
   }
 
   const handleSubmit = () => {
+    if (Object.keys(answers).length < totalQ) {
+      const firstUnanswered = questions.findIndex(q => !answers[q.id])
+      if (firstUnanswered !== -1) setCurrent(firstUnanswered)
+      setError("Please answer all questions before submitting.")
+      return
+    }
     const mbti = calculateMBTI()
     setResult(mbti)
     localStorage.setItem("mbtiResult", mbti)
@@ -171,6 +179,12 @@ export function PersonalityTest() {
           </div>
         </div>
 
+        {error && (
+          <div className="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
         <div className="flex justify-between">
           <button
             onClick={handlePrev}
@@ -182,8 +196,7 @@ export function PersonalityTest() {
           {current === totalQ - 1 ? (
             <button
               onClick={handleSubmit}
-              disabled={Object.keys(answers).length < totalQ}
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold disabled:opacity-50 hover:shadow-lg transition-all"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold hover:shadow-lg transition-all"
             >
               See My Personality Type ✓
             </button>
