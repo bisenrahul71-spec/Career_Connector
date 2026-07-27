@@ -10,6 +10,7 @@ export function AptitudeTest() {
   const [selected, setSelected] = useState<Record<number, string>>({})
   const [submitted, setSubmitted] = useState(false)
   const [loadingQ, setLoadingQ] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -85,6 +86,7 @@ export function AptitudeTest() {
 
   const handleSelect = (option: string) => {
     setSelected({ ...selected, [currentQ.id]: option })
+    setError(null)
   }
 
   const handleNext = () => {
@@ -96,6 +98,13 @@ export function AptitudeTest() {
   }
 
   const handleSubmit = async () => {
+    if (Object.keys(selected).length < totalQ) {
+      const firstUnanswered = questions.findIndex(q => !selected[q.id])
+      if (firstUnanswered !== -1) setCurrent(firstUnanswered)
+      setError("Please answer all questions before submitting.")
+      return
+    }
+
     setSubmitted(true)
     let score = 0
     questions.forEach(q => {
@@ -224,6 +233,12 @@ export function AptitudeTest() {
           </div>
         </div>
 
+        {error && (
+          <div className="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
+
         <div className="flex justify-between">
           <button
             onClick={handlePrev}
@@ -235,8 +250,7 @@ export function AptitudeTest() {
           {current === totalQ - 1 ? (
             <button
               onClick={handleSubmit}
-              disabled={Object.keys(selected).length < totalQ}
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold disabled:opacity-50 hover:shadow-lg transition-all"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-orange-600 to-red-600 text-white font-semibold hover:shadow-lg transition-all"
             >
               Submit Test ✓
             </button>
