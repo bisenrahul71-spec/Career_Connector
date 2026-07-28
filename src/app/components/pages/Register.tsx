@@ -49,11 +49,11 @@ export function Register() {
                 Career Connector
               </span>
               <span
-                className="block text-[9px] uppercase tracking-[0.25em] text-white/45 mt-1"
-                style={{ fontFamily: '"JetBrains Mono", monospace' }}
-              >
-                AI-Powered Career Guidance
-              </span>
+                 className="block text-[9px] uppercase tracking-[0.25em] text-white/45 mt-1"
+            style={{ fontFamily: '"JetBrains Mono", monospace' }}
+          >
+            Where Talent Meets Intelligence
+          </span>
             </span>
           </Link>
           <Link
