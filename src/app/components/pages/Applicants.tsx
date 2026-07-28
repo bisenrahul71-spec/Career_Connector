@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
-import { ArrowLeft, User, FileText, Clock, CheckCircle2, XCircle, X, Download, ExternalLink } from "lucide-react"
+import { ArrowLeft, User, FileText, Clock, CheckCircle2, XCircle, X, Download } from "lucide-react"
 import API from "../../src/api/config"
 
 export function Applicants() {
@@ -185,15 +185,6 @@ export function Applicants() {
                 >
                   <Download size={13} />
                   Download
-                </a>
-                <a
-                  href={previewResume.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 border border-black/15 text-black/70 px-3 py-1.5 text-xs font-medium hover:border-[#FF3300] hover:text-[#FF3300] transition-colors duration-200"
-                >
-                  <ExternalLink size={13} />
-                  New Tab
                 </a>
                 <button
                   onClick={() => setPreviewResume(null)}
