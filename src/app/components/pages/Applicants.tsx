@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
-import { ArrowLeft, User, FileText, Clock, CheckCircle2, XCircle } from "lucide-react"
+import { ArrowLeft, User, FileText, Clock, CheckCircle2, XCircle, X, Download, ExternalLink } from "lucide-react"
 import API from "../../src/api/config"
- 
+
 export function Applicants() {
   const { jobId } = useParams()
   const navigate = useNavigate()
   const [applicants, setApplicants] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [previewResume, setPreviewResume] = useState<{ url: string; name: string } | null>(null)
 
   useEffect(() => {
     fetchApplicants()
@@ -35,7 +36,7 @@ export function Applicants() {
 
   const handleViewResume = (app: any) => {
     if (app.resume_url) {
-      window.open(app.resume_url, "_blank")
+      setPreviewResume({ url: app.resume_url, name: app.student_name || "Applicant" })
     } else {
       alert("Resume not available yet for this applicant.")
     }
@@ -162,6 +163,56 @@ export function Applicants() {
           </div>
         )}
       </div>
+
+      {previewResume && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setPreviewResume(null)}
+        >
+          <div
+            className="bg-white w-full max-w-3xl h-full max-h-[85vh] flex flex-col"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-black/10 px-5 py-4 shrink-0">
+              <h3 className="font-medium tracking-tight" style={{ fontFamily: '"Clash Display", sans-serif' }}>
+                {previewResume.name}'s Resume
+              </h3>
+              <div className="flex items-center gap-2">
+                
+                  href={previewResume.url}
+                  download
+                  className="inline-flex items-center gap-1.5 border border-black/15 text-black/70 px-3 py-1.5 text-xs font-medium hover:border-[#FF3300] hover:text-[#FF3300] transition-colors duration-200"
+                >
+                  <Download size={13} />
+                  Download
+                </a>
+                
+                  href={previewResume.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 border border-black/15 text-black/70 px-3 py-1.5 text-xs font-medium hover:border-[#FF3300] hover:text-[#FF3300] transition-colors duration-200"
+                >
+                  <ExternalLink size={13} />
+                  New Tab
+                </a>
+                <button
+                  onClick={() => setPreviewResume(null)}
+                  className="grid place-items-center h-8 w-8 text-black/50 hover:text-black transition-colors duration-200"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+            <div className="flex-1 bg-black/5">
+              <iframe
+                src={`https://docs.google.com/viewer?url=${encodeURIComponent(previewResume.url)}&embedded=true`}
+                className="w-full h-full border-0"
+                title="Resume preview"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
