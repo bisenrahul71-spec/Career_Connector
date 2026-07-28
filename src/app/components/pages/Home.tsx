@@ -61,7 +61,7 @@ export function Home() {
   const [searchLocation, setSearchLocation] = useState("");
   const [allJobs, setAllJobs] = useState<any[]>([]);
   const [loadingJobs, setLoadingJobs] = useState(true);
-  const [appliedJobs, setAppliedJobs] = useState<string[]>([]);
+  const [appliedJobs, setAppliedJobs] = useState<Record<string, number>>({});
   const [applying, setApplying] = useState<string | null>(null);
   const [applyResult, setApplyResult] = useState<{ score: number; status: string } | null>(null);
   const [role, setRole] = useState<string | null>(null);
@@ -156,14 +156,14 @@ export function Home() {
       navigate("/login");
       return;
     }
-    if (appliedJobs.includes(jobId)) {
+    if (appliedJobs[jobId] !== undefined) {
       alert("You have already applied for this job!");
       return;
     }
     setApplying(jobId);
     try {
       const res = await API.post("/api/applications/apply", { job_id: jobId });
-      const updated = [...appliedJobs, jobId];
+      const updated = { ...appliedJobs, [jobId]: res.data.match_score };
       setAppliedJobs(updated);
       localStorage.setItem("appliedJobs", JSON.stringify(updated));
       setApplyResult({ score: res.data.match_score, status: res.data.status });
@@ -519,9 +519,14 @@ export function Home() {
                         </span>
                       ))}
                     </div>
-         {appliedJobs.includes(job._id) ? (
-  <div className="mt-auto inline-flex items-center justify-center gap-2 bg-green-100 text-green-700 py-3 text-sm font-medium">
-    Applied!
+  {appliedJobs[job._id] !== undefined ? (
+  <div className="mt-auto flex items-center justify-center gap-2 flex-wrap">
+    <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 py-3 px-4 text-sm font-medium">
+      Applied!
+    </div>
+    <span className="text-xs font-medium text-[#FF3300]" style={{ fontFamily: '"JetBrains Mono", monospace' }}>
+      {appliedJobs[job._id]}% match
+    </span>
   </div>
 ) : (
   <button
