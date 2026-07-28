@@ -9,7 +9,7 @@ export function JobListings() {
   const [searchParams] = useSearchParams()
   const [search, setSearch] = useState(searchParams.get("q") || searchParams.get("location") || "")
   const [applying, setApplying] = useState<string | null>(null)
-  const [appliedJobs, setAppliedJobs] = useState<string[]>([])
+  const [appliedJobs, setAppliedJobs] = useState<Record<string, number>>({})
   const [applyResult, setApplyResult] = useState<{jobId: string, score: number, status: string} | null>(null)
   const navigate = useNavigate()
 
@@ -38,7 +38,7 @@ export function JobListings() {
       return
     }
 
-    if (appliedJobs.includes(jobId)) {
+    if (appliedJobs[jobId] !== undefined) {
       alert("You have already applied for this job!")
       return
     }
@@ -49,7 +49,7 @@ export function JobListings() {
         job_id: jobId
       })
 
-      const updated = [...appliedJobs, jobId]
+      const updated = { ...appliedJobs, [jobId]: res.data.match_score }
       setAppliedJobs(updated)
       localStorage.setItem("appliedJobs", JSON.stringify(updated))
 
@@ -206,10 +206,15 @@ export function JobListings() {
                   </p>
                 )}
 
-                {appliedJobs.includes(job._id) ? (
-                  <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-5 py-3 text-sm font-medium w-fit">
-                    <CheckCircle2 size={16} />
-                    Applied!
+                {appliedJobs[job._id] !== undefined ? (
+                  <div className="inline-flex items-center gap-3 flex-wrap">
+                    <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-5 py-3 text-sm font-medium w-fit">
+                      <CheckCircle2 size={16} />
+                      Applied!
+                    </div>
+                    <span className="text-xs font-medium text-[#FF3300]" style={{ fontFamily: '"JetBrains Mono", monospace' }}>
+                      {appliedJobs[job._id]}% match
+                    </span>
                   </div>
                 ) : (
                   <button
