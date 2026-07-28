@@ -178,7 +178,7 @@ export function Applicants() {
                 {previewResume.name}'s Resume
               </h3>
               <div className="flex items-center gap-2">
-                
+                <a
                   href={previewResume.url}
                   download
                   className="inline-flex items-center gap-1.5 border border-black/15 text-black/70 px-3 py-1.5 text-xs font-medium hover:border-[#FF3300] hover:text-[#FF3300] transition-colors duration-200"
@@ -186,7 +186,7 @@ export function Applicants() {
                   <Download size={13} />
                   Download
                 </a>
-                
+                <a
                   href={previewResume.url}
                   target="_blank"
                   rel="noopener noreferrer"
