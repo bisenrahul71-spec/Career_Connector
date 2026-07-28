@@ -511,7 +511,7 @@ export function Home() {
                     <p className="flex items-center gap-1.5 text-black/50 text-xs mt-2">
                       <MapPin size={13} /> {job.location}
                     </p>
-                    {job.description && <p className="text-sm text-black/60 leading-relaxed mt-4 line-clamp-2">{job.description}</p>}
+                    {job.description && <p className="text-sm text-black/60 leading-relaxed mt-4 line-clamp-2 whitespace-pre-line">{job.description}</p>}
                     <div className="flex flex-wrap gap-2 mt-5 mb-6">
                       {job.skills_required?.slice(0, 4).map((s: string) => (
                         <span key={s} className="text-[10px] uppercase tracking-[0.1em] border border-black/12 px-2.5 py-1 text-black/70" style={{ fontFamily: '"JetBrains Mono", monospace' }}>
