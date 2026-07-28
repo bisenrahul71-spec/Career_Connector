@@ -188,8 +188,8 @@ export function JobListings() {
                   </div>
                 </div>
 
-                {job.description && (
-                  <p className="text-black/60 text-sm leading-relaxed mb-5">{job.description}</p>
+               {job.description && (
+                  <p className="text-black/60 text-sm leading-relaxed mb-5 whitespace-pre-line">{job.description}</p>
                 )}
 
                 <div className="flex flex-wrap gap-2 mb-6">
