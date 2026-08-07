@@ -110,7 +110,7 @@ export function PostJob() {
                 type="text"
                 value={form.company}
                 onChange={e => setForm({ ...form, company: e.target.value })}
-                placeholder="e.g. DHL India"
+                placeholder="e.g. Company Name "
                 className="w-full px-4 py-3 border border-black/15 bg-white text-sm outline-none focus:border-[#FF3300] transition-colors duration-200"
               />
             </div>
