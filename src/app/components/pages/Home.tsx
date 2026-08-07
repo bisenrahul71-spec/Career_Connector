@@ -429,9 +429,7 @@ export function Home() {
                   Powerful tooling for career success.
                 </h2>
               </div>
-              <p className="text-black/60 max-w-sm text-sm leading-relaxed">
-                Six connected engines that read, reason and recommend — turning scattered signals into one clear direction.
-              </p>
+            
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-black/10">
               {FEATURES.map((f, i) => {
